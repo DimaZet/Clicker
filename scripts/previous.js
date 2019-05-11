@@ -1,6 +1,7 @@
 const MAX_SPEED_COEF = 0.9;
 const MIN_SPEED_COEF = 0.5;
-const INCREASE_COEFF = 50;
+const INCREASE_COEF = 50;
+const BAR_MAX_SIZE = 300;
 init();
 
 const app = new PIXI.Application({ backgroundColor: 0x1099bb });
@@ -22,7 +23,6 @@ learnBtn.x = app.screen.width / 4 * 2;
 learnBtn.y = app.screen.height / 11 * 9;
 funBtn.x = app.screen.width / 4 * 3;
 funBtn.y = app.screen.height / 11 * 9;
-
 
 sleepBtn.scale.x = 0.1;
 sleepBtn.scale.y = 0.1;
@@ -51,17 +51,29 @@ app.stage.addChild(learnBtn);
 app.stage.addChild(funBtn);
 
 function onSleepBtn() {
-    energy += d_energy * INCREASE_COEFF;
+    if(energy < BAR_MAX_SIZE - i_energy) {
+        energy += i_energy;
+    } else {
+        energy += BAR_MAX_SIZE - energy;
+    }
     console.log("energy: " + energy);
 }
 
 function onLearnBtn() {
-    knowledge += d_knowledge * INCREASE_COEFF;
+    if(knowledge < BAR_MAX_SIZE - i_knowledge){
+        knowledge += i_knowledge;
+    } else {
+        knowledge += BAR_MAX_SIZE - knowledge;
+    }
     console.log("knowledge: " + knowledge);
 }
 
 function onFunBtn() {
-    happiness += d_happiness * INCREASE_COEFF;
+    if(happiness < BAR_MAX_SIZE - i_happiness){
+        happiness += i_happiness;
+    } else {
+        happiness += BAR_MAX_SIZE - happiness;
+    }
     console.log("happiness: " + happiness);
 }
 
@@ -96,15 +108,22 @@ function drawBar(rect, x, dependOn) {
     rect.beginFill(0xffFF00, 1);
     rect.drawRect(
         app.screen.width / 4 * x, app.screen.height / 11 * 7,
-        60, -dependOn,
+        60, -dependOn
     );
     rect.endFill();}
 
 function init() {
-    energy = 200;
-    knowledge = 200;
-    happiness = 200;
+    energy = Math.random() * (100) + 100;
+    knowledge = Math.random() * (100) + 100;
+    happiness = Math.random() * (100) + 100;
     d_energy = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
     d_knowledge = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
     d_happiness = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
+    i_energy = d_energy * INCREASE_COEF;
+    i_knowledge = d_knowledge * INCREASE_COEF;
+    i_happiness = d_happiness * INCREASE_COEF;
+}
+
+function drawBg() {
+
 }
