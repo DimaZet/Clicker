@@ -1,5 +1,5 @@
-const MAX_SPEED_COEF = 0.9;
-const MIN_SPEED_COEF = 0.5;
+const MAX_SPEED_COEF = 0.5;
+const MIN_SPEED_COEF = 0.3;
 const INCREASE_COEF = 50;
 const BAR_MAX_SIZE = 300;
 init();
@@ -119,7 +119,12 @@ app.ticker.add(() => {
         money += 0.05;
         moneyText.text = "curr: " + Math.floor(money);
     } else {
-        alert("you louse");
+        if (energy <= 0)
+            alert("coma")
+        else if (happiness <= 0)
+            alert("depression")
+        else
+            alert("braindead")
         init();
     }
 })
