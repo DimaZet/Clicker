@@ -1,9 +1,7 @@
-var energy = 200;
-var knowledge = 200;
-var happiness = 200;
-var d_energy = 1;
-var d_knowledge = 1;
-var d_happiness = 1;
+const MAX_SPEED_COEF = 0.9;
+const MIN_SPEED_COEF = 0.5;
+const INCREASE_COEFF = 50;
+init();
 
 const app = new PIXI.Application({ backgroundColor: 0x1099bb });
 document.body.appendChild(app.view);
@@ -53,45 +51,60 @@ app.stage.addChild(learnBtn);
 app.stage.addChild(funBtn);
 
 function onSleepBtn() {
-    energy += d_energy * 20;
+    energy += d_energy * INCREASE_COEFF;
     console.log("energy: " + energy);
 }
 
 function onLearnBtn() {
-    knowledge += d_knowledge * 20;
+    knowledge += d_knowledge * INCREASE_COEFF;
     console.log("knowledge: " + knowledge);
 }
 
 function onFunBtn() {
-    happiness += d_happiness * 20;
+    happiness += d_happiness * INCREASE_COEFF;
     console.log("happiness: " + happiness);
 }
 
 const energyBar = new PIXI.Graphics();
+const knowledgeBar = new PIXI.Graphics();
+const happinessBar = new PIXI.Graphics();
 app.stage.addChild(energyBar);
-energy.x = app.screen.width / 4;
-energy.y = app.screen.height / 11 * 8;
+app.stage.addChild(knowledgeBar);
+app.stage.addChild(happinessBar);
+
 
 app.ticker.add(() => {
-    if (energy > 0) {
-        energyBar.clear();
-        energyBar.lineStyle(2, 0xff0000, 1);
-        energyBar.beginFill(0xffFF00, 1);
-        energyBar.drawRect(
-            app.screen.width / 4, app.screen.height / 11 * 7,
-            40, -energy,
-        );
-        energyBar.endFill();
-        energy -= 0.9;// * d_energy;
+    if (energy > 0 && happiness > 0 && knowledge > 0) {
+        drawBar(energyBar, 1 / 5, energy);
+        drawBar(knowledgeBar, 2 / 5, knowledge);
+        drawBar(happinessBar, 3 / 5, happiness);
+
+        energy -= d_energy;
+        knowledge -=  d_knowledge;
+        happiness -= d_happiness;
     } else {
         alert("you louse");
         init();
     }
 })
 
+function drawBar(rect, x, dependOn) {
+    rect.x = app.screen.width * x - 30;
+    rect.y = app.screen.height / 11 * 1;
+    rect.clear();
+    rect.lineStyle(2, 0xff0000, 1);
+    rect.beginFill(0xffFF00, 1);
+    rect.drawRect(
+        app.screen.width / 4 * x, app.screen.height / 11 * 7,
+        60, -dependOn,
+    );
+    rect.endFill();}
+
 function init() {
     energy = 200;
     knowledge = 200;
     happiness = 200;
-
+    d_energy = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
+    d_knowledge = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
+    d_happiness = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
 }
