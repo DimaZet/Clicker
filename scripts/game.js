@@ -135,7 +135,9 @@ function onFunBtn() {
 }
 
 function onMoneyBtn() {
-
+    button_game(false);
+    view_menu();
+    button_game(true);
 }
 
 const energyBar = new PIXI.Graphics();
@@ -204,4 +206,16 @@ function init() {
     d_energy = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.15;
     d_knowledge = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.3;
     d_happiness = Math.random() * 0.05;
+}
+
+function button_game(bool) {
+    sleepBtn.interactive = bool;
+    learnBtn.interactive = bool;
+    funBtn.interactive = bool;
+    moneyBtn.interactive = bool;
+
+    sleepBtn.buttonMode = bool;
+    learnBtn.buttonMode = bool;
+    funBtn.buttonMode = bool;
+    moneyBtn.buttonMode = bool;
 }
