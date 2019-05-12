@@ -63,8 +63,8 @@ app.stage.addChild(moneyBtn);
 
 
 function onSleepBtn() {
-    if(energy < (BAR_MAX_SIZE - i_energy)) {
-        energy += i_energy;
+    if(energy < (BAR_MAX_SIZE - 7)) {
+        energy += 7;
     } else {
         energy = BAR_MAX_SIZE;
     }
@@ -74,8 +74,8 @@ function onSleepBtn() {
 }
 
 function onLearnBtn() {
-    if(knowledge < BAR_MAX_SIZE - i_knowledge){
-        knowledge += i_knowledge;
+    if(knowledge < BAR_MAX_SIZE - 7){
+        knowledge += 7;
     } else {
         knowledge = BAR_MAX_SIZE;
     }
@@ -84,13 +84,13 @@ function onLearnBtn() {
 }
 
 function onFunBtn() {
-    if(happiness < BAR_MAX_SIZE - 10){
-        happiness += 10;
+    if(happiness < BAR_MAX_SIZE - 7){
+        happiness += 7;
     } else {
         happiness = BAR_MAX_SIZE;
     }
-    knowledge -= 7;
-    energy -= 5;
+    knowledge -= 5;
+    energy -= 3;
 }
 
 function onMoneyBtn() {
@@ -158,7 +158,4 @@ function init() {
     d_energy = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.15;
     d_knowledge = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.3;
     d_happiness = 0;//Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
-    i_energy = d_energy * INCREASE_COEF;
-    i_knowledge = d_knowledge * INCREASE_COEF;
-    i_happiness = d_happiness * INCREASE_COEF;
 }
