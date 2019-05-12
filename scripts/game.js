@@ -63,40 +63,44 @@ app.stage.addChild(moneyBtn);
 
 
 function onSleepBtn() {
-    if(energy < BAR_MAX_SIZE - i_energy) {
+    if(energy < (BAR_MAX_SIZE - i_energy)) {
         energy += i_energy;
     } else {
-        energy += BAR_MAX_SIZE - energy;
+        energy = BAR_MAX_SIZE;
     }
-    console.log("energy: " + energy);
+    if(energy < (BAR_MAX_SIZE * 0.1) && happiness < (BAR_MAX_SIZE - 4)) {
+        happiness += 4;
+    }
 }
 
 function onLearnBtn() {
     if(knowledge < BAR_MAX_SIZE - i_knowledge){
         knowledge += i_knowledge;
     } else {
-        knowledge += BAR_MAX_SIZE - knowledge;
+        knowledge = BAR_MAX_SIZE;
     }
-    console.log("knowledge: " + knowledge);
+    happiness -= 3;
+    energy -= 5;
 }
 
 function onFunBtn() {
-    if(happiness < BAR_MAX_SIZE - i_happiness){
-        happiness += i_happiness;
+    if(happiness < BAR_MAX_SIZE - 10){
+        happiness += 10;
     } else {
-        happiness += BAR_MAX_SIZE - happiness;
+        happiness = BAR_MAX_SIZE;
     }
-    console.log("happiness: " + happiness);
+    knowledge -= 7;
+    energy -= 5;
 }
 
 function onMoneyBtn() {
-
 
 }
 
 const energyBar = new PIXI.Graphics();
 const knowledgeBar = new PIXI.Graphics();
 const happinessBar = new PIXI.Graphics();
+
 app.stage.addChild(energyBar);
 app.stage.addChild(knowledgeBar);
 app.stage.addChild(happinessBar);
@@ -118,6 +122,7 @@ app.ticker.add(() => {
 
         money += 0.05;
         moneyText.text = "curr: " + Math.floor(money);
+
     } else {
         if (energy <= 0)
             alert("coma")
@@ -127,6 +132,7 @@ app.ticker.add(() => {
             alert("braindead")
         init();
     }
+
 })
 
 
@@ -149,9 +155,9 @@ function init() {
     energy = Math.random() * (100) + 100;
     knowledge = Math.random() * (100) + 100;
     happiness = Math.random() * (100) + 100;
-    d_energy = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
-    d_knowledge = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
-    d_happiness = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
+    d_energy = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.15;
+    d_knowledge = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.3;
+    d_happiness = 0;//Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
     i_energy = d_energy * INCREASE_COEF;
     i_knowledge = d_knowledge * INCREASE_COEF;
     i_happiness = d_happiness * INCREASE_COEF;
