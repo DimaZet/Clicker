@@ -4,8 +4,48 @@ const INCREASE_COEF = 50;
 const BAR_MAX_SIZE = 300;
 init();
 
+
+
 const app = new PIXI.Application({ backgroundColor: 0x1099bb });
 document.body.appendChild(app.view);
+
+//BACKGROUND
+const background = new PIXI.Graphics();
+background.beginFill(0xD14A44);
+background.drawRect(
+    app.screen.width / 4 - 30, app.screen.height / 11 * 8,
+    60, -BAR_MAX_SIZE
+);
+background.endFill();
+
+background.beginFill(0xD14A44);
+background.drawRect(
+    app.screen.width / 4 * 2 - 30, app.screen.height / 11 * 8,
+    60, -BAR_MAX_SIZE
+);
+background.endFill();
+
+background.beginFill(0xD14A44);
+background.drawRect(
+    app.screen.width / 4 * 3 - 30, app.screen.height / 11 * 8,
+    60, -BAR_MAX_SIZE
+);
+background.endFill()
+
+background.beginFill(0xFCF500);
+background.drawRoundedRect(
+    app.screen.width / 4, app.screen.height / 11 - 32,
+    app.screen.width / 2 + 30, 70,
+    40
+);
+background.endFill();
+
+background.lineStyle(0); // draw a circle, set the lineStyle to zero so the circle doesn't have an outline
+background.beginFill(0xffffff, 1);
+background.drawCircle(app.screen.width / 4, app.screen.height / 11, 47);
+background.endFill();
+
+app.stage.addChild(background);
 
 const sleepBtn = PIXI.Sprite.from('resources/sprites/sleepBtn.png');
 const learnBtn = PIXI.Sprite.from('resources/sprites/learnBtn.png');
@@ -74,8 +114,8 @@ function onSleepBtn() {
 }
 
 function onLearnBtn() {
-    if(knowledge < BAR_MAX_SIZE - 7){
-        knowledge += 7;
+    if(knowledge < BAR_MAX_SIZE - 10){
+        knowledge += 10;
     } else {
         knowledge = BAR_MAX_SIZE;
     }
@@ -105,9 +145,15 @@ app.stage.addChild(energyBar);
 app.stage.addChild(knowledgeBar);
 app.stage.addChild(happinessBar);
 
-
+const textStyle = new PIXI.TextStyle({
+    fill: 0xD14A44,
+    fontSize: 50,
+    fontWeight: "bold",
+});
 var moneyText = new PIXI.Text();
-moneyText.position.set(app.screen.width / 4 + 60, app.screen.height / 11)
+moneyText.style = textStyle;
+
+moneyText.position.set(app.screen.width / 2 - 40, app.screen.height / 11 - 25);
 app.stage.addChild(moneyText);
 
 app.ticker.add(() => {
@@ -121,7 +167,7 @@ app.ticker.add(() => {
         happiness -= d_happiness;
 
         money += 0.05;
-        moneyText.text = "curr: " + Math.floor(money);
+        moneyText.text = Math.floor(money) + " $";
 
     } else {
         if (energy <= 0)
@@ -140,8 +186,7 @@ function drawBar(rect, x, dependOn) {
     rect.x = app.screen.width * x - 30;
     rect.y = app.screen.height / 11 * 1;
     rect.clear();
-    rect.lineStyle(2, 0xff0000, 1);
-    rect.beginFill(0xffFF00, 1);
+    rect.beginFill(0xffFF00);
     rect.drawRect(
         app.screen.width / 4 * x, app.screen.height / 11 * 7,
         60, -dependOn
@@ -157,5 +202,5 @@ function init() {
     happiness = Math.random() * (100) + 100;
     d_energy = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.15;
     d_knowledge = Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF - 0.3;
-    d_happiness = 0;//Math.random() * (MAX_SPEED_COEF - MIN_SPEED_COEF) + MIN_SPEED_COEF;
+    d_happiness = Math.random() * 0.05;
 }
