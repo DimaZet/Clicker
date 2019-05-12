@@ -1,12 +1,13 @@
+var win_width = window.innerWidth; //получаем ширину экрана
+var win_height = window.innerHeight; // получаем высоту экрана
 const MAX_SPEED_COEF = 0.5;
 const MIN_SPEED_COEF = 0.3;
 const INCREASE_COEF = 50;
 const BAR_MAX_SIZE = 300;
+
 init();
 
-
-
-const app = new PIXI.Application({ backgroundColor: 0x1099bb });
+const app = new PIXI.Application(win_width, win_height, { backgroundColor: 0x1099bb });
 document.body.appendChild(app.view);
 
 //BACKGROUND
